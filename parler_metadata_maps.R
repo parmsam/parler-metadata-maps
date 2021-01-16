@@ -18,10 +18,10 @@ dt2 <- parler_all %>%
 
 dt2_geo <- geojsonio::geojson_json(dt2 )
 
-# 2021-01-06 in DC
+#on 2021-01-06
 dt2_jan6 <- dt2 %>% 
   filter(date(CreateDate) == "2021-01-06") %>% 
-  filter(lat > 38.6 & lat < 39.2)
+  # filter(lat > 38.6 & lat < 39.2)
 tag.map.title_white  <- tags$style(HTML("
   .leaflet-control.map-title-white { 
     position: sticky !important;
