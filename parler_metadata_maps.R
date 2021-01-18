@@ -13,14 +13,17 @@ parler_all <- read_csv("https://raw.githubusercontent.com/zumbov2/parler-video-m
 
 dt2 <- parler_all %>% 
   mutate(CreateDate = ymd_hms(CreateDate)) %>%
-  mutate(start = as_date(CreateDate), end = as_date(CreateDate)+1) %>%
-  filter(start > as_date("2020-11-01"))
+  mutate(start = as_date(CreateDate), end = as_date(CreateDate)) %>%
+  filter(start >= as_date("2020-11-01")) %>%
+  mutate(start = ymd_hm(paste(start,"00:01 AM")), 
+         end = ymd_hm(paste(end,"11:59 PM"))
+  )
 
 dt2_geo <- geojsonio::geojson_json(dt2 )
 
 #on 2021-01-06
 dt2_jan6 <- dt2 %>% 
-  filter(date(CreateDate) == "2021-01-06") %>% 
+  filter(date(CreateDate) == "2021-01-06")
   # filter(lat > 38.6 & lat < 39.2)
 tag.map.title_white  <- tags$style(HTML("
   .leaflet-control.map-title-white { 
@@ -51,7 +54,7 @@ title2 <- tags$div(
   tag.map.title_black, HTML("Parler Metadata over Time")
 )  
 
-# Leaflet
+# Leaflet map1
 leaflet(dt2_jan6) %>% 
   addControl(title, position = "topright", className="map-title-white") %>%
   setView(lng = -77.025, lat = 38.892, zoom = 12) %>%
@@ -91,7 +94,7 @@ leaflet(dt2_jan6) %>%
             clusterManager.unfreeze();
             btn.state('unfrozen-markers');
           }")))))
-
+#Leaflet map2
 leaflet(dt2_geo, options = leafletOptions(zoomControl = TRUE, 
                                           dragging = TRUE, 
                                           preferCanvas = FALSE)) %>%
@@ -102,9 +105,9 @@ leaflet(dt2_geo, options = leafletOptions(zoomControl = TRUE,
     width = "40%",
     sliderOpts = sliderOptions(
       formatOutput = htmlwidgets::JS("function(StartDate) {return new Date(StartDate).toDateString()}"),
-      steps=length(unique(dt2$start)),
+      # steps=length(unique(dt2$start)),
       position = "bottomright",
-      duration = 150000,
+      duration = 130000,
       showTicks = TRUE,
       enablePlayback = TRUE,
       enableKeyboardControls = TRUE, 
