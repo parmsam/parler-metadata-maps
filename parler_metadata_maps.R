@@ -37,7 +37,7 @@ tag.map.title_white  <- tags$style(HTML("
   }
 "))
 title <- tags$div(
-  tag.map.title_white, HTML("Parler Metadata on Jan 6, 2020")
+  tag.map.title_white, HTML("Parler Metadata on Jan 6, 2021")
 )  
 tag.map.title_black  <- tags$style(HTML("
   .leaflet-control.map-title-black { 
